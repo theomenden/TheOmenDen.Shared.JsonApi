@@ -8,15 +8,15 @@ public class ViewModel<TData>: IViewModel
     #region Private Fields
     private const string SelfLinkName = "self";
 
-    private Data<TData> _data;
+    private Data<TData>? _data;
 
     private Meta _meta;
 
-    private Dictionary<String, Relationship> _relationships;
+    private Dictionary<String, Relationship>? _relationships;
 
-    private readonly List<Link> _links;
+    private readonly List<Link>? _links;
 
-    private List<Error> _errors;
+    private List<Error>? _errors;
     #endregion
     #region Constructors
     public ViewModel(string selfUrl)
@@ -30,6 +30,8 @@ public class ViewModel<TData>: IViewModel
         {
             new (SelfLinkName,  selfUrl)
         };
+
+        _meta = new();
     }
 
     public ViewModel(string selfUrl, TData data)
@@ -37,16 +39,23 @@ public class ViewModel<TData>: IViewModel
     {
         _data = new (data);
     }
+
+    public ViewModel(string selfUrl, Meta metaData, TData data)
+    : this(selfUrl)
+    {
+        _meta = metaData;
+        _data = new(data);
+    }
     #endregion
     #region Properties
     [JsonPropertyName("links")]
-    public IEnumerable<Link> Links => _links;
+    public IEnumerable<Link> Links => _links ?? Enumerable.Empty<Link>();
 
     [JsonPropertyName("errors")]
-    public IEnumerable<Error> Errors => _errors;
+    public IEnumerable<Error> Errors => _errors ?? Enumerable.Empty<Error>();
 
     [JsonPropertyName("relationships")]
-    public IDictionary<String, Relationship> Relationships => _relationships;
+    public IDictionary<String, Relationship> Relationships => _relationships ?? new Dictionary<string, Relationship>();
     
     [JsonPropertyName("data")]
     public Data<TData> Data
@@ -76,7 +85,7 @@ public class ViewModel<TData>: IViewModel
 
         var error = new Error(referenceId, source, statusCode, title, details, errorDetailsLinks);
 
-        _errors.Add(error);
+        _errors!.Add(error);
 
         return error;
     }
@@ -85,7 +94,7 @@ public class ViewModel<TData>: IViewModel
     {
         var link = new Link(name, href);
 
-        _links.Add(link);
+        _links!.Add(link);
 
         return link;
     }

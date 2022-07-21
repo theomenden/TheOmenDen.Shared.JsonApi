@@ -12,5 +12,6 @@ global using TheOmenDen.Shared.JsonApi.Models.Links;
 global using TheOmenDen.Shared.JsonApi.Models.Errors;
 global using TheOmenDen.Shared.JsonApi.Models.Metas;
 global using TheOmenDen.Shared.JsonApi.Models.Relationships;
+global using TheOmenDen.Shared.JsonApi.ViewModels;
 global using TheOmenDen.Shared.JsonApi.Resources;
 #endregion
