@@ -1,5 +1,4 @@
 ﻿namespace TheOmenDen.Shared.JsonApi.Models;
-[Serializable]
 public class Attributes : Dictionary<String, JsonElement>
 {
     public static Attributes<T> Create<T>(T data)
@@ -8,8 +7,6 @@ public class Attributes : Dictionary<String, JsonElement>
     }
 }
 
-[Serializable]
-[JsonSerializable(typeof(Attributes))]
 public class Attributes<T> : Attributes
 {
     public Attributes(T data)

@@ -1,4 +1,5 @@
 ﻿namespace TheOmenDen.Shared.JsonApi.ViewModels;
+#nullable disable
 /// <summary>
 /// <inheritdoc cref="IViewModel"/>
 /// </summary>
@@ -8,15 +9,15 @@ public class ViewModel<TData>: IViewModel
     #region Private Fields
     private const string SelfLinkName = "self";
 
-    private Data<TData>? _data;
+    private Data<TData> _data;
 
     private Meta _meta;
 
-    private Dictionary<String, Relationship>? _relationships;
+    private Dictionary<String, Relationship> _relationships;
 
-    private readonly List<Link>? _links;
+    private readonly List<Link> _links;
 
-    private List<Error>? _errors;
+    private List<Error> _errors;
     #endregion
     #region Constructors
     public ViewModel(string selfUrl)
@@ -30,7 +31,6 @@ public class ViewModel<TData>: IViewModel
         {
             new (SelfLinkName,  selfUrl)
         };
-
         _meta = new();
     }
 
