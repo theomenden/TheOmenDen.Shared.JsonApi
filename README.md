@@ -1,5 +1,4 @@
-# TheOmenDen.Shared.JsonApi
-## A simple implementation of the JSON Api Standard
+[![TheOmenDen.Shared.JsonApi](https://github-readme-stats.vercel.app/api/pin/?username=theomenden&repo=TheOmenDen.Shared.JsonApi&show_icons=true&theme=synthwave)](https://github.com/theomenden/THeOmenDen.Shared.JsonApi)[![Build](https://github.com/theomenden/TheOmenDen.Shared.JsonApi/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/theomenden/TheOmenDen.Shared.JsonApi/actions/workflows/sonarcloud.yml)
 
 # This library aims to accomplish the following goals
 
