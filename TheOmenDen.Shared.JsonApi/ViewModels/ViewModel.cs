@@ -56,7 +56,11 @@ public class ViewModel<TData>: IViewModel
 
     [JsonPropertyName("relationships")]
     public IDictionary<String, Relationship> Relationships => _relationships ?? new Dictionary<string, Relationship>();
-    
+
+    public Attributes Attributes => _data.Attributes;
+
+    public String Type => _data.Type;
+
     [JsonPropertyName("data")]
     public Data<TData> Data
     {

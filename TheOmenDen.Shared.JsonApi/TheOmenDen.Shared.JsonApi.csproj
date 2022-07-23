@@ -9,6 +9,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="omenden-jsonapi.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\Downloads\omenden-jsonapi.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Resources\Resource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -18,6 +33,18 @@
 
 	<PropertyGroup>
 		<GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);SetPackageVersion</GenerateNuspecDependsOn>
+		<Authors>Andrew Beers (Alu)</Authors>
+		<Company>The Omen Den L.L.C.</Company>
+		<Product>The Omen Den JSON Api</Product>
+		<Description>A lightweight, easy to use implementation of the JSONApi standard</Description>
+		<Copyright>2022</Copyright>
+		<RepositoryUrl>https://github.com/theomenden/TheOmenDen.Shared.JsonApi</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/theomenden/TheOmenDen.Shared.JsonApi</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>jsonapi, json, c#, dotnet, serialization, mvc, source generators</PackageTags>
+		<PackageIcon>omenden-jsonapi.png</PackageIcon>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<ApplicationIcon>omenden-jsonapi.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<Target Name="SetPackageVersion" DependsOnTargets="Build">
@@ -45,6 +72,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="System.Text.Json" Version="6.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Fluent\" />
   </ItemGroup>
 
 </Project>

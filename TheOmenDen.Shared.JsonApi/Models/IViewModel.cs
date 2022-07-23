@@ -4,28 +4,46 @@
 /// </summary>
 internal interface IViewModel
 {
+
     /// <summary>
-    /// 
+    /// The underlying type in the top level document
+    /// </summary>
+    [JsonPropertyName("type")]
+    String Type { get; }
+
+    /// <summary>
+    /// The attributes described by the underlying type
+    /// </summary>
+    [JsonPropertyName("attributes")]
+    Attributes Attributes { get; }
+
+    /// <summary>
+    /// A collection of Resource indicators
     /// </summary>
     [JsonPropertyName("links")]
-    public IEnumerable<Link> Links { get; }
+    IEnumerable<Link> Links { get; }
 
     /// <summary>
-    /// 
+    /// Any errors that have been returned
     /// </summary>
     [JsonPropertyName("errors")]
-    public IEnumerable<Error> Errors { get; }
+    IEnumerable<Error> Errors { get; }
 
     /// <summary>
-    /// 
+    /// The underlying relationships in the top level document
     /// </summary>
     [JsonPropertyName("relationships")]
-    public IDictionary<String, Relationship> Relationships { get; }
-
-    public Meta MetaData { get; set; }
+    IDictionary<String, Relationship> Relationships { get; }
 
     /// <summary>
     /// 
     /// </summary>
-    public JsonApi JsonApi { get; }
+    [JsonPropertyName("meta")]
+    Meta MetaData { get; set; }
+
+    /// <summary>
+    /// The current JSON Api standard
+    /// </summary>
+    [JsonPropertyName("jsonapi")]
+    JsonApi JsonApi { get; }
 }

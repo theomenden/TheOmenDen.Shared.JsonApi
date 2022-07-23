@@ -26,6 +26,15 @@ public record Data<T>(T Value)
     public Attributes<T> Attributes { get; } = Models.Attributes.Create(Value);
 
     /// <summary>
+    /// A generated Id for the underlying Data
+    /// </summary>
+    /// <value>
+    /// A guid based Identifier for the resource
+    /// </value>
+    [JsonPropertyName("id")]
+    public EntityId<T> Id { get; } = new EntityId<T>();
+
+    /// <summary>
     /// The underlying type
     /// </summary>
     /// <value>
