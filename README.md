@@ -8,7 +8,7 @@
    - Allow for the ability for `Errors` to maintain immutability
    - Allow for the ability to generate relationships and attributes 
 2. Provide an action state filter for custom response codes
-   - This will provide a clear way to distingusih between the results of HTTP Methods
+   - This will provide a clear way to distinguish between the results of HTTP Methods
    - This will allow for other processing to take place during a request
 3. Provide templating for validations of basic view models and other resource objects
    - Provide strict typing for View Models
