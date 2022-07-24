@@ -3,7 +3,7 @@
 /// <summary>
 /// Defines a relationship between resources
 /// </summary>
-public class Relationship: IRelationship
+public class Relationship : IRelationship
 {
     private List<Link> _links;
 
@@ -27,40 +27,75 @@ public class Relationship: IRelationship
         set => SetLinks(value);
     }
 
-    private void SetLinks(IEnumerable<Link> links)
-    {
-        _links = links?.ToList() ?? new(2);
-    }
-
     public Meta Meta { get; set; }
 
-    public void InitializeLinks()
+    #region Private Methods
+    private void SetLinks(IEnumerable<Link> links)
     {
-        _links ??= new (2);
+        InitializeLinks();
+
+        _links.AddRange(links);
     }
 
+
+    private void InitializeLinks()
+    {
+        _links ??= new(2);
+    }
+    #endregion
+    #region Add link Methods
+    /// <summary>
+    /// Adds a <see cref="Link"/> to the relationship
+    /// </summary>
+    /// <param name="link">The <see cref="Link"/> we want to add</param>
+    /// <returns>The created <see cref="Link"/></returns>
+    public Link AddLink(Link link)
+    {
+        InitializeLinks();
+
+        _links.Add(link);
+
+        return link;
+    }
+
+    /// <summary>
+    /// Adds a <see cref="RelationLink"/> to the relationship
+    /// </summary>
+    /// <param name="relationLink">The <see cref="RelationLink"/> we want to add</param>
+    /// <returns>The created <see cref="RelationLink"/></returns
     public Link AddLink(RelationLink relationLink)
     {
+        InitializeLinks();
+
         _links.Add(relationLink);
 
         return relationLink;
     }
 
+    /// <summary>
+    /// Adds a <see cref="Link"/> to the relationship
+    /// </summary>
+    /// <param name="name">The human readable name of the link</param>
+    /// <param name="href">The url</param>
+    /// <returns>The created <see cref="Link"/></returns>
     public Link AddLink(String name, String href)
     {
+        InitializeLinks();
+
         var linkToAdd = new Link(name, href);
-        
+
         _links.Add(linkToAdd);
 
         return linkToAdd;
     }
+    #endregion
 }
 
 /// <summary>
 /// <inheritdoc cref="Relationship"/>
 /// </summary>
 /// <typeparam name="TData">The underlying data encompassed by the relationship</typeparam>
-public class Relationship<TData>: Relationship
+public class Relationship<TData> : Relationship
 {
     /// <summary>
     /// Underlying information for a relationship that allows a client to issue a single request as opposed to many

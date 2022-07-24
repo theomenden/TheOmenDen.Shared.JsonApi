@@ -1,10 +1,11 @@
 ﻿using TheOmenDen.Shared.JsonApi.Interfaces.Includes;
+using TheOmenDen.Shared.JsonApi.Interfaces.Links;
 using TheOmenDen.Shared.JsonApi.Interfaces.ViewModels;
 
 namespace TheOmenDen.Shared.JsonApi.Fluent;
 
 public sealed class ViewModelBuilder<TData> :
-    ICanCreateAViewModel<TData>
+    ICanCreateAViewModel<TData>, ICanInclude<TData>
 {
     private ViewModel<TData> _viewModelReference;
 
@@ -18,14 +19,14 @@ public sealed class ViewModelBuilder<TData> :
         return new ViewModelBuilder<TData>();
     }
     #region Build From Data
-    public ICanCreateAViewModel<TData> FromData(TData data)
+    public ICanAddDetailsToAViewModel<TData> FromData(TData data)
     {
         _viewModelReference = new(data);
 
         return this;
     }
 
-    public ICanCreateAViewModel<TData> FromData(String selfUrl, TData data)
+    public ICanAddDetailsToAViewModel<TData> FromData(String selfUrl, TData data)
     {
         _viewModelReference = new(selfUrl, data);
 
@@ -39,7 +40,7 @@ public sealed class ViewModelBuilder<TData> :
 
     #endregion
 
-    public ICanAddDetailsToAViewModel<TData> AddSelfLink()
+    public ICanAddLinksToAViewModel<TData> AddSelfLink()
     {
         return AddLink("self", $"{_viewModelReference.Type}/{_viewModelReference.Data.Id}");
     }
@@ -61,24 +62,81 @@ public sealed class ViewModelBuilder<TData> :
         return this;
     }
 
-    public ICanAddDetailsToAViewModel<TData> Include<TIncluded>(TIncluded included)
+    public ICanInclude<TData> WithRelatedData()
     {
-        
         return this;
     }
 
-    public ICanAddDetailsToAViewModel<TData> WithLinks()
+    public ICanAddDetailsToAViewModel<TData> Include<TIncluded>(TIncluded included)
+    {
+        return this;
+    }
+
+    public ICanAddLinksToAViewModel<TData> WithLinks()
     {
         _viewModelReference.InitializeLinkCollection();
         return this;
     }
 
-    public ICanInclude<TData> WithRelatedData<TIncluded>(String relationshipKey,TIncluded relationshipToInclude)
+    public ICanInclude<TData> AddRelationship<TIncluded>(String relationshipKey,TIncluded relationshipToInclude)
     {
-        var relationship = _viewModelReference.AddRelationship(relationshipKey, relationshipToInclude);
-        
-        
+        _viewModelReference.AddRelationship(relationshipKey, relationshipToInclude);    
 
         return this;
+    }
+
+    public ICanAddDetailsToAViewModel<TData> WithMeta(Meta meta)
+    {
+        _viewModelReference.AddMetaData(meta);
+
+        return this;
+    }
+
+    public ICanInclude<TData> WithLink<TIncluded>(string relationshipKey, RelationLink link)
+    {
+        if (_viewModelReference.Relationships.TryGetValue(relationshipKey, out var relationship))
+        {
+            relationship.AddLink(link);
+
+            return this;
+        }
+
+        throw new ArgumentOutOfRangeException($"Could not find Relationship with key {relationshipKey}");
+    }
+
+    public ICanInclude<TData> WithLink<TIncluded>(string relationshipKey, Link link)
+    {
+        if (_viewModelReference.Relationships.TryGetValue(relationshipKey, out var relationship))
+        {
+            relationship.AddLink(link);
+
+            return this;
+        }
+
+        throw new ArgumentOutOfRangeException($"Could not find Relationship with key {relationshipKey}");
+    }
+
+    public ICanInclude<TData> WithLink<TIncluded>(string relationshipKey, string name, string href)
+    {
+        if (_viewModelReference.Relationships.TryGetValue(relationshipKey, out var relationship))
+        {
+            relationship.AddLink(name, href);
+
+            return this;
+        }
+
+        throw new ArgumentOutOfRangeException($"Could not find Relationship with key {relationshipKey}");
+    }
+
+    public ICanInclude<TData> WithSelfLink<TIncluded>(string relationshipKey)
+    {
+        if(_viewModelReference.Relationships.TryGetValue(relationshipKey, out var relationship))
+        {
+            relationship.AddLink("self", $"{typeof(TIncluded).Name.ToLowerInvariant()}/{relationshipKey}");
+
+            return this;
+        }
+
+        throw new ArgumentOutOfRangeException($"Could not find Relationship with key {relationshipKey}");
     }
 }

@@ -7,7 +7,10 @@ public interface IViewModel
     /// <summary>
     /// The underlying type in the top level document
     /// </summary>
-    [JsonPropertyName("type")]
+    /// <remarks>
+    /// Not mapped in the constructed ViewModel
+    /// </remarks>
+    [JsonIgnore]
     String Type { get; }
 
     /// <summary>
@@ -29,7 +32,7 @@ public interface IViewModel
     IDictionary<String, Relationship> Relationships { get; }
 
     /// <summary>
-    /// 
+    /// The meta data for the top level document
     /// </summary>
     [JsonPropertyName("meta")]
     Meta MetaData { get; set; }
@@ -41,6 +44,9 @@ public interface IViewModel
     JsonApi JsonApi { get; }
 
 
+    /// <summary>
+    /// The data object present in the top level document
+    /// </summary>
     [JsonPropertyName("data")]
     Data UntypedData { get; }
 }
