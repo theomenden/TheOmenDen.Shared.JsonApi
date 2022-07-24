@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\Downloads\omenden-jsonapi.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -42,7 +38,6 @@
 		<PackageProjectUrl>https://github.com/theomenden/TheOmenDen.Shared.JsonApi</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>jsonapi, json, c#, dotnet, serialization, mvc, source generators</PackageTags>
-		<PackageIcon>omenden-jsonapi.png</PackageIcon>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<ApplicationIcon>omenden-jsonapi.ico</ApplicationIcon>
 	</PropertyGroup>
@@ -72,10 +67,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="System.Text.Json" Version="6.0.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Fluent\" />
   </ItemGroup>
 
 </Project>

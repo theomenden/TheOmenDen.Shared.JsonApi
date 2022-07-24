@@ -2,20 +2,13 @@
 /// <summary>
 /// Contains top-level document structures for the JSONApi Standard
 /// </summary>
-internal interface IViewModel
+public interface IViewModel
 {
-
     /// <summary>
     /// The underlying type in the top level document
     /// </summary>
     [JsonPropertyName("type")]
     String Type { get; }
-
-    /// <summary>
-    /// The attributes described by the underlying type
-    /// </summary>
-    [JsonPropertyName("attributes")]
-    Attributes Attributes { get; }
 
     /// <summary>
     /// A collection of Resource indicators
@@ -46,4 +39,8 @@ internal interface IViewModel
     /// </summary>
     [JsonPropertyName("jsonapi")]
     JsonApi JsonApi { get; }
+
+
+    [JsonPropertyName("data")]
+    Data UntypedData { get; }
 }

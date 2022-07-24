@@ -5,7 +5,7 @@
 /// <param name="Id">The UUID for an entity</param>
 public record EntityId(Guid Id)
 {
-    public override sealed string ToString()
+    public sealed override string ToString()
     {
         return Id.ToString();
     }
@@ -16,15 +16,8 @@ public record EntityId(Guid Id)
 /// <inheritdoc cref="EntityId"/>
 /// </summary>
 /// <typeparam name="T">The underlying type</typeparam>
-public record EntityId<T> : EntityId
+public record EntityId<T>() : EntityId(Guid.NewGuid())
 {
-
-    public EntityId()
-        :base(Guid.NewGuid())
-    {
-        EntityType = typeof(T);
-    }
-
     /// <summary>
     /// The type of the entity that we are working with
     /// </summary>
@@ -32,5 +25,5 @@ public record EntityId<T> : EntityId
     /// Used for application/logic purposes, but not for serialization
     /// </value>
     [JsonIgnore]
-    public Type EntityType { get; }
+    public Type EntityType { get; } = typeof(T);
 }

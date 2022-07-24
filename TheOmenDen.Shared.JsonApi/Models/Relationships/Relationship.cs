@@ -3,8 +3,10 @@
 /// <summary>
 /// Defines a relationship between resources
 /// </summary>
-public class Relationship
+public class Relationship: IRelationship
 {
+    private List<Link> _links;
+
     /// <summary>
     /// Creates a relationship for the provided type <typeparamref name="TData"/>
     /// </summary>
@@ -19,28 +21,46 @@ public class Relationship
         };
     }
 
-    /// <summary>
-    /// A collection that provides access to the underlying resources 
-    /// </summary>
-    /// <value>
-    /// <see cref="Link"/>
-    /// </value>
-    public IEnumerable<Link> Links { get; set; } = new List<Link>(2);
+    public IEnumerable<Link> Links
+    {
+        get => _links ?? new List<Link>(2);
+        set => SetLinks(value);
+    }
 
-    /// <summary>
-    /// The relationship's Meta information
-    /// </summary>
-    /// <value>
-    /// <see cref="Metas.Meta"/>
-    /// </value>
+    private void SetLinks(IEnumerable<Link> links)
+    {
+        _links = links?.ToList() ?? new(2);
+    }
+
     public Meta Meta { get; set; }
+
+    public void InitializeLinks()
+    {
+        _links ??= new (2);
+    }
+
+    public Link AddLink(RelationLink relationLink)
+    {
+        _links.Add(relationLink);
+
+        return relationLink;
+    }
+
+    public Link AddLink(String name, String href)
+    {
+        var linkToAdd = new Link(name, href);
+        
+        _links.Add(linkToAdd);
+
+        return linkToAdd;
+    }
 }
 
 /// <summary>
 /// <inheritdoc cref="Relationship"/>
 /// </summary>
 /// <typeparam name="TData">The underlying data encompassed by the relationship</typeparam>
-public class Relationship<TData>
+public class Relationship<TData>: Relationship
 {
     /// <summary>
     /// Underlying information for a relationship that allows a client to issue a single request as opposed to many
