@@ -9,7 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="omenden-jsonapi.ico" />
+    <None Remove="omen-den-jsonapi.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="omen-den-jsonapi.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="omenden-jsonapi.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +51,7 @@
 		<PackageTags>jsonapi, json, c#, dotnet, serialization, mvc, source generators</PackageTags>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<ApplicationIcon>omenden-jsonapi.ico</ApplicationIcon>
+		<PackageIcon>omen-den-jsonapi.png</PackageIcon>
 	</PropertyGroup>
 
 	<Target Name="SetPackageVersion" DependsOnTargets="Build">
