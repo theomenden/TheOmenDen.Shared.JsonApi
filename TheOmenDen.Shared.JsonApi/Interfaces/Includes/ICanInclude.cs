@@ -1,14 +1,11 @@
-﻿using TheOmenDen.Shared.JsonApi.Interfaces.ViewModels;
-
-namespace TheOmenDen.Shared.JsonApi.Interfaces.Includes;
+﻿namespace TheOmenDen.Shared.JsonApi.Interfaces.Includes;
 
 /// <summary>
-/// 
+/// Defines methods to allow for Related Data to be included and/or loaded in a view model
 /// </summary>
-/// <typeparam name="TData"></typeparam>
+/// <typeparam name="TData">The view model's underlying type</typeparam>
 public interface ICanInclude<TData>
 {
-
     /// <summary>
     /// Adds a <see cref="Relationship"/> to the <see cref="ViewModel{TData}"/>
     /// </summary>
@@ -56,11 +53,17 @@ public interface ICanInclude<TData>
     ICanInclude<TData> WithSelfLink<TIncluded>(String relationshipKey);
 
     /// <summary>
+    /// Will not include the resource in the constructed <see cref="ViewModel{TData}"/>
+    /// </summary>
+    /// <returns>The builder instance to allow for further chaining</returns>
+    ICanAddDetailsToAViewModel<TData> DoNotInclude();
+
+    /// <summary>
     /// Allows for adding a <see cref="IViewModel"/> of the <typeparamref name="TIncluded"/> data to the parent <see cref="ViewModel{TData}"/>
     /// </summary>
     /// <typeparam name="TIncluded">The type of <see cref="Relationship"/> to be included</typeparam>
     /// <param name="included">The data that we're adding to the view model</param>
     /// <returns>The builder instance to allow for further chaining</returns>
-    ICanAddDetailsToAViewModel<TData> Include<TIncluded>(TIncluded included);
+    ICanAddDetailsToAViewModel<TData> Include<TIncluded>(Func<ViewModel<TIncluded>> included);
 }
 

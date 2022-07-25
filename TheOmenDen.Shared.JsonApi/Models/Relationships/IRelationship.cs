@@ -1,5 +1,7 @@
 ﻿namespace TheOmenDen.Shared.JsonApi.Models.Relationships;
-
+/// <summary>
+/// Contains templates for Relationships within the library
+/// </summary>
 public interface IRelationship
 {
     /// <summary>

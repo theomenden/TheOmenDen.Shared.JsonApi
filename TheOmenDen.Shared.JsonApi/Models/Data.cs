@@ -1,5 +1,11 @@
 ﻿namespace TheOmenDen.Shared.JsonApi.Models;
 
+/// <summary>
+/// Holds information regarding the data we want to expose in an API <see cref="ViewModel{TData}"/>
+/// </summary>
+/// <param name="Attributes">A set of KeyValue Pairs where the Key is the property name, and the value is the value of the property</param>
+/// <param name="MetaData"></param>
+/// <param name="Type">The underlying type</param>
 public record Data(Attributes Attributes, Meta MetaData, String Type)
 {
     public static Data<T> Create<T>(T value)
@@ -9,10 +15,10 @@ public record Data(Attributes Attributes, Meta MetaData, String Type)
 }
 
 /// <summary>
-/// Holds information regarding the data we want to expose in an API ViewModel
+/// <inheritdoc cref="Data"/>
 /// </summary>
 /// <typeparam name="T">The underlying type we're working with</typeparam>
-/// <param name="Value">The value we want to serialize into the top-level</param>
+/// <param name="Value">The value(s) we want to serialize into the top-level</param>
 public record Data<T>(T Value) : Data(Attributes.Create(Value),new Meta(), typeof(T).Name)
 {
     /// <summary>
@@ -25,15 +31,6 @@ public record Data<T>(T Value) : Data(Attributes.Create(Value),new Meta(), typeo
     public T Value { get; } = Value;
 
     /// <summary>
-    /// The attributes belonging to the data present.
-    /// </summary>
-    /// <value>
-    /// A set of KeyValue Pairs where the Key is the property name, and the value is the value of the property
-    /// </value>
-    [JsonPropertyName("attributes")]
-    public Attributes Attributes { get; } = Attributes.Create(Value);
-
-    /// <summary>
     /// A generated Id for the underlying Data
     /// </summary>
     /// <value>
@@ -41,14 +38,5 @@ public record Data<T>(T Value) : Data(Attributes.Create(Value),new Meta(), typeo
     /// </value>
     [JsonPropertyName("id")]
     public EntityId<T> Id { get; } = new ();
-
-    /// <summary>
-    /// The underlying type
-    /// </summary>
-    /// <value>
-    /// <typeparamref name="T"/>
-    /// </value>
-    [JsonPropertyName("type")]
-    public String Type { get; } = typeof(T).Name;
 };
 

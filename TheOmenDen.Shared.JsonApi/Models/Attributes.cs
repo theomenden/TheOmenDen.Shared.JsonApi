@@ -11,7 +11,12 @@ public class Attributes<T> : Attributes
 {
     public Attributes(T data)
     {
-        foreach (var property in data!.GetType().GetProperties())
+        if (data is null)
+        {
+            return;
+        }
+
+        foreach (var property in data.GetType().GetProperties())
         {
             var propertyValue = property.GetValue(data);
 

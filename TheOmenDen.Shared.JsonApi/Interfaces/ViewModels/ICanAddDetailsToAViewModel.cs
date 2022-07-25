@@ -1,7 +1,4 @@
-﻿using TheOmenDen.Shared.JsonApi.Interfaces.Includes;
-using TheOmenDen.Shared.JsonApi.Interfaces.Links;
-
-namespace TheOmenDen.Shared.JsonApi.Interfaces.ViewModels;
+﻿namespace TheOmenDen.Shared.JsonApi.Interfaces.ViewModels;
 
 /// <summary>
 /// Defines methods to build out various details of a view model

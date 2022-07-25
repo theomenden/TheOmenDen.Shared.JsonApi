@@ -4,7 +4,7 @@
 /// <inheritdoc cref="IViewModel"/>
 /// </summary>
 /// <typeparam name="TData">The type of underlying data supplied into the view model</typeparam>
-public class ViewModel<TData>: IViewModel
+public class ViewModel<TData> : IViewModel
 {
     #region Private Fields
     private const string SelfLinkName = "self";
@@ -18,6 +18,8 @@ public class ViewModel<TData>: IViewModel
     private List<Link> _links;
 
     private List<Error> _errors;
+
+    private List<IViewModel> _includedModels;
     #endregion
     #region Constructors
     private ViewModel()
@@ -46,7 +48,7 @@ public class ViewModel<TData>: IViewModel
     public ViewModel(string selfUrl, TData data)
         : this(selfUrl)
     {
-        _data = new (data);
+        _data = new(data);
     }
 
     public ViewModel(string selfUrl, Meta metaData, TData data)
@@ -76,7 +78,15 @@ public class ViewModel<TData>: IViewModel
         set => SetData(value);
     }
 
+    [JsonIgnore]
     public Data UntypedData => _data;
+
+    [JsonIgnore]
+    public IEnumerable<IViewModel> ViewModels
+    {
+        get => _includedModels;
+        set => SetIncludedModels(value);
+    }
 
     [JsonPropertyName("meta")]
     public Meta MetaData
@@ -85,7 +95,7 @@ public class ViewModel<TData>: IViewModel
         set => SetMetaData(value);
     }
 
-    [JsonPropertyName("jsonapi")] 
+    [JsonPropertyName("jsonapi")]
     public Models.JsonApi JsonApi { get; } = new();
     #endregion
     #region Public Methods
@@ -108,33 +118,49 @@ public class ViewModel<TData>: IViewModel
     {
         _links ??= new List<Link>(5);
     }
-    
+
     public Link AddLink(string name, string href)
     {
         var link = new Link(name, href);
 
-        _links!.Add(link);
+        _links.Add(link);
 
         return link;
     }
 
-    public Relationship<TRelation> AddRelationship<TRelation>(String relationKey,TRelation relationData)
+    public Link AddLink(Link link)
+    {
+        _links.Add(link);
+
+        return link;
+    }
+
+    public IViewModel AddIncludedModel(IViewModel modelToInclude)
+    {
+        EnsureIncludesAreNotNull();
+
+        _includedModels.Add(modelToInclude);
+
+        return modelToInclude;
+    }
+
+    public Relationship<TRelation> AddRelationship<TRelation>(String relationKey, TRelation relationData)
     {
         EnsureRelationshipsAreNotNull();
 
-        if(string.IsNullOrWhiteSpace(relationKey))
+        if (string.IsNullOrWhiteSpace(relationKey))
         {
             relationKey = typeof(TRelation).Name;
         }
 
         var relationship = Relationship.Create(relationData);
 
-        _relationships.Add(relationKey,relationship);
+        _relationships.Add(relationKey, relationship);
 
         return relationship;
     }
-    
-    public Link GetLink(string name) => 
+
+    public Link GetLink(string name) =>
         Links.SingleOrDefault(c => c.Name.Equals(name));
 
     public Meta AddMetaData(Meta metaData)
@@ -160,7 +186,7 @@ public class ViewModel<TData>: IViewModel
 
     private void EnsureErrorsCollectionIsNotNull()
     {
-        _errors ??= new(1);
+        _errors ??= Enumerable.Empty<Error>().ToList();
     }
 
     private void EnsureRelationshipsAreNotNull()
@@ -181,18 +207,29 @@ public class ViewModel<TData>: IViewModel
         _meta ??= new();
     }
 
+    private void EnsureIncludesAreNotNull()
+    {
+        _includedModels ??= Enumerable.Empty<IViewModel>().ToList();
+    }
+
     private void SetData(Data<TData> data)
     {
         EnsureErrorsHasNotBeenSet();
 
         _data = data;
     }
-    
+
     private void SetMetaData(Meta metaData)
     {
         EnsureMetaDataIsNotNull();
 
         _meta = metaData;
+    }
+
+    private void SetIncludedModels(IEnumerable<IViewModel> modelsToInclude)
+    {
+        EnsureIncludesAreNotNull();
+        _includedModels = modelsToInclude.ToList();
     }
     #endregion
     #region Static Methods

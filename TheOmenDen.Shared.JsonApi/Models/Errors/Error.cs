@@ -1,5 +1,4 @@
 ﻿namespace TheOmenDen.Shared.JsonApi.Models.Errors;
-
 /// <summary>
 /// Container for an Error Object
 /// </summary>
